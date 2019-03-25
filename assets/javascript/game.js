@@ -6,7 +6,17 @@ var hak=9,
     trash,
     userChoise,
     compGuess,
-    guessList=undefined;
+    count=-1,
+    guessList=[];
+
+    
+
+    var wintext = document.getElementById("win-text");
+    var losetext = document.getElementById("lose-text");
+    var haktext = document.getElementById("hak-text");
+    var guessListText = document.getElementById("guesses-text");
+    
+
 
 
 function randomise(begin,range){
@@ -22,6 +32,15 @@ function randomise(begin,range){
     trash=0;
     return sel;   
 }
+function scan(array,value){
+    for(var i=0; i!=array.length; i++){
+        if(i>0){
+            if(array[i-1]===value){
+                return true;   
+            }
+        }
+    }
+}
 
 
 var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -32,9 +51,18 @@ console.log("First CompGuess " + compGuess);
 
 
 document.onkeyup = function(event) {
+
+    count++;
+    
+    if(count===9 || hak===0){
+        count=0;
+        
+    }
     
     userChoise=event.key;
     userChoise=userChoise.toLowerCase();
+    guessList[count]=userChoise;
+
     
 
     console.log(userChoise);
@@ -43,30 +71,35 @@ document.onkeyup = function(event) {
         win++;
         compGuess = alphabet[(randomise(0,alphabet.length))];
         hak=9;
+        guessList=[];
+    }
+    else if(count>0 && scan(guessList, userChoise)){ 
+        alert("Push Different Button!");
+        guessList[count]="Another Key Botton Pls";
+        count--;
     }
     else {
-
         hak--;
-        //guessList[hak]=userChoise;
         if(hak==0){
             hak=9;
             lose++;
             compGuess = alphabet[(randomise(0,alphabet.length))];
+            guessList=[];
         }
     }
 
-
-    //modeltext.textContent = car.model;
-    //maketext.textContent = car.make;
-    //colortext.textContent = car.color;
-    //milagetext.textContent = car.mileage;
-    //workingtext.textContent = car.isWorking;
+    wintext.textContent = win;
+    losetext.textContent = lose;
+    haktext.textContent = hak;
+    guessListText.textContent = guessList;
 
     console.log("userChoise " + userChoise);
     console.log("compGuess " + compGuess);
-    console.log("win " + win);
-    console.log("loses " + lose);
-    console.log("hak " + hak);
-    console.log("guessList " + guessList);
-};
+    //console.log("win " + win);
+    //console.log("loses " + lose);
+    //console.log("hak " + hak);
+    console.log("Count " + count);
+    console.log("Guess List " + guessList);
+    console.log("scan " + scan(guessList, userChoise));
+}
 
