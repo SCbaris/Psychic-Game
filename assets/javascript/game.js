@@ -3,7 +3,6 @@ var hak=9,
     lose=0,
     correct=0,
     sel,
-    trash,
     userChoise,
     compGuess,
     count=-1,
@@ -20,6 +19,7 @@ var hak=9,
 
 
 function randomise(begin,range){
+    var trash;
     sel = Math.floor((Math.random()*range)+begin);
     for(var i=0; i!=1 ; trash++){ //infinite loop to chose proper number.
         if (sel>range){ // if number reach up to range, find another one
@@ -57,7 +57,7 @@ document.onkeyup = function(event) {
     if(count===9 || hak===0){
         count=0;
         
-    }
+    } // check this!
     
     userChoise=event.key;
     userChoise=userChoise.toLowerCase();
@@ -72,6 +72,7 @@ document.onkeyup = function(event) {
         compGuess = alphabet[(randomise(0,alphabet.length))];
         hak=9;
         guessList=[];
+        count=-1;
     }
     else if(count>0 && scan(guessList, userChoise)){ 
         alert("Push Different Button!");
@@ -85,6 +86,7 @@ document.onkeyup = function(event) {
             lose++;
             compGuess = alphabet[(randomise(0,alphabet.length))];
             guessList=[];
+            count=-1;
         }
     }
 
